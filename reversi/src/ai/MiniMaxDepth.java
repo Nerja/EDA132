@@ -40,7 +40,6 @@ public class MiniMaxDepth {
 	}
 	
 	private static int minValue(Board board, Disc me, int alpha, int beta, int d) {
-		//1 for me winning, -1 for loosing
 		if(!board.hasMove(me)) 
 			return board.reward(me);
 		else if(d <= 0)
@@ -92,7 +91,7 @@ public class MiniMaxDepth {
 			if(max >= beta)
 				return max;
 			
-			max = Math.max(max, alpha);
+			alpha = Math.max(max, alpha);
 			
 			//Restore state
 			board.setState(disc, turn);	
