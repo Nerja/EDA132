@@ -7,6 +7,10 @@ public class Board {
 	private Disc[][] board;
 	private Disc turn;
 	
+	/**
+	 * Creates a board object that contains
+	 * the starting position for the Othello game
+	 */
 	public Board() {
 		board = new Disc[8][8];
 		for(int i = 0; i < 8; i++)
@@ -21,15 +25,29 @@ public class Board {
 		turn = Disc.BLACK;
 	}
 	
+	/**
+	 * Returns the current player
+	 * @return current player
+	 */
 	public Disc getTurn() {
 		return turn;
 	}
 	
+	/**
+	 * Set the current state
+	 * @param board New board
+	 * @param turn  New player turn
+	 */
 	public void setState(Disc[][] board, Disc turn) {
 		this.board = board;
 		this.turn = turn;
 	}
 	
+	/**
+	 * Checks if there is a available move for a player
+	 * @param color The player to check for
+	 * @return Returns true if there is a valid move
+	 */
 	public boolean hasMove(Disc color) {
 		Disc saveTurn = turn;
 		turn = color;
@@ -48,6 +66,10 @@ public class Board {
 		return move;
 	}
 	
+	/**
+	 * Returns the winner. Empty if draw.
+	 * @return The winner
+	 */
 	public Disc getWinner() {
 		int white = getPoints(Disc.WHITE);
 		int black = getPoints(Disc.BLACK);
@@ -59,20 +81,29 @@ public class Board {
 			return Disc.BLACK;
 	}
 	
+	/**
+	 * Checks if the game is still alive.
+	 * @return true if game is alive
+	 */
 	public boolean gameAlive() {
 		return hasMove(Disc.BLACK) || hasMove(Disc.WHITE);
 	}
 	
+	/**
+	 * Performs a move with error checking
+	 * @param row Row with index 0...7
+	 * @param col Col with index 0...7
+	 */
 	public void set(int row, int col) {
 		if(row < 0 || row > 7 || col < 0 || col > 7) {
 			throw new IllegalArgumentException("Wrong indexing " + "Row: " + row + " Col: " + col);
 		}
-		else if(board[row][col] != Disc.EMPTY) {
+		else if(board[row][col] != Disc.EMPTY) { //Already a disc here
 			String error = "Row: " + row + ", Col: " + col + " is already filled";
 			throw new IllegalArgumentException(error);
 		}
-		board[row][col] = turn;
-		if(!applyPropagation(row, col)) {
+		board[row][col] = turn; //Place the disc
+		if(!applyPropagation(row, col)) { //Try to perform the move, if not valid throw error
 			board[row][col] = Disc.EMPTY;
 			throw new IllegalArgumentException("Not ok");
 		}
@@ -81,6 +112,9 @@ public class Board {
 			turn = other;
 	}
 	
+	/*
+	 * Clone the current board state
+	 */
 	public Disc[][] clone() {
 		Disc[][] v = new Disc[8][8];
 		for(int i = 0; i < 8; i++)
@@ -88,13 +122,19 @@ public class Board {
 				v[i][j] = board[i][j];
 		return v;
 	}
-
+	
+	/**
+	 * Checks every direction from row, col and tries to flip discs
+	 * @param row Row with index 0...7
+	 * @param col Col with index 0...7
+	 * @return true if 1 or more discs were flipped
+	 */
 	private boolean applyPropagation(int row, int col) {
 		int nbrFlipps = 0;
 		for(int vi = -1; vi <= 1; vi++) {
 			for(int vj = -1; vj <= 1; vj++) {
 				if(vi != 0 || vj != 0) {
-					int n = flippVector(row, col, vi, vj);
+					int n = flipVector(row, col, vi, vj);
 					nbrFlipps += n;
 				}
 			}
@@ -102,28 +142,38 @@ public class Board {
 		return nbrFlipps > 0;
 	}
 
-	private int flippVector(int row, int col, int vi, int vj) {
+	/**
+	 * @param row Row with index 0...7
+	 * @param col Col with index 0...7
+	 * @param vi row-direction -1..1
+	 * @param vj col-direction -1..1
+	 * @return number of flipped discs
+	 */
+	private int flipVector(int row, int col, int vi, int vj) {
+		//Disc to flip
 		Disc target = turn == Disc.BLACK ? Disc.WHITE : Disc.BLACK;
 		int count = 0;
+		//Move one step in the given direction
 		int nrow = row + vi;
 		int ncol = col + vj;
-		//If next is opposite then ok
+		//If next is target then ok
 		if(nrow > -1 && nrow < 8 && ncol > -1 && ncol < 8 && board[nrow][ncol] == target) {
-			Disc[][] newBoard = clone(); //Apply changes on clone
-			newBoard[nrow][ncol] = turn;
+			Disc[][] newBoard = clone(); //Clone the board
+			newBoard[nrow][ncol] = turn; //Flip the disc in the clone
 			count++;
-			boolean ok = false;
-			for(int f = 2; f < 7; f++) {
+			boolean ok = false; //Flag true if we encounter our color again
+			for(int f = 1; f <= 6; f++) {
+				//Take one step
 				nrow += vi;
 				ncol += vj;
-				if(ncol < 0 || ncol > 7 || nrow < 0 || nrow > 7) {
+				if(ncol < 0 || ncol > 7 || nrow < 0 || nrow > 7) { //If outside fail
 					break;
-				} else if(board[nrow][ncol] == target) {
+				} else if(board[nrow][ncol] == target) { //If target increase count and flip
 					count++;
 					newBoard[nrow][ncol] = turn;
-				} else if(board[nrow][ncol] == Disc.EMPTY){
+				} else if(board[nrow][ncol] == Disc.EMPTY){ //If Empty fail
 					break;
-				} else {
+				} else { //Encountered our color again set flag ok
 					ok = true;
 					break;
 				}
@@ -131,11 +181,16 @@ public class Board {
 			if(!ok)
 				count = 0;
 			else
-				board = newBoard;
+				board = newBoard; //Apply clone changes to board
 		}
 		return count;
 	}
 	
+	/**
+	 * Counts the number of discs for player c
+	 * @param c player to count discs for
+	 * @return returns the number of discs for player c
+	 */
 	public int getPoints(Disc c) {
 		int count = 0;
 		for(int i = 0; i < 8; i++)
@@ -145,11 +200,20 @@ public class Board {
 		return count;
 	}
 	
+	/**
+	 * reward for player c
+	 * @param c player
+	 * @return return reward
+	 */
 	public int reward(Disc c) {
 		Disc other = c == Disc.BLACK ? Disc.WHITE : Disc.BLACK;
 		return getPoints(c) - getPoints(other);
 	}
 	
+	/**
+	 * Returns the available move space for the current player
+	 * @return Returns the available move space
+	 */
 	public int[][] getMoves() {
 		List<int[]> moves = new LinkedList<int[]>();
 		for(int i = 0; i < 8; i++) {
@@ -168,6 +232,11 @@ public class Board {
 		return movesMatrix;
 	}
 	
+	/**
+	 * Standard ASCII print of the board state
+	 * X for player Black and O for player white.
+	 * ? for valid move for the current player
+	 */
 	public void printBoard() {
 		System.out.println("White: " + getPoints(Disc.WHITE) + "  Black: " + getPoints(Disc.BLACK));
 		for(int i = 0; i < 8; i++) {
