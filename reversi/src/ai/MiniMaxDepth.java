@@ -4,7 +4,6 @@ import world.Board;
 import world.Disc;
 
 public class MiniMaxDepth {
-	public static int a, b;
 	
 	/**
 	 * Returns the "best" action for the current player
@@ -59,7 +58,7 @@ public class MiniMaxDepth {
 	 * @return
 	 */
 	private static int minValue(Board board, Disc me, int alpha, int beta, int d, long hardDeadline) {
-		if(!board.hasMove(me) || d <= 0 || System.currentTimeMillis() >= hardDeadline) 
+		if(!board.gameAlive() || d <= 0 || System.currentTimeMillis() >= hardDeadline) 
 			return board.reward(me);
 		
 		int min = Integer.MAX_VALUE;
@@ -101,7 +100,7 @@ public class MiniMaxDepth {
 	 */
 	private static int maxValue(Board board, Disc me, int alpha, int beta, int d, long hardDeadline) {
 		//1 for me winning, -1 for loosing
-		if(!board.hasMove(me) || d <= 0 || System.currentTimeMillis() >= hardDeadline) 
+		if(!board.gameAlive() || d <= 0 || System.currentTimeMillis() >= hardDeadline) 
 			return board.reward(me);
 		
 		int max = Integer.MIN_VALUE;
