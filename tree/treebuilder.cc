@@ -25,10 +25,11 @@ Node build_tree(vector<Attribute>& attributes, vector<DataItem>& examples, vecto
     for(string v : attr.get_values()) {
       vector<DataItem> exs = get_exs(examples, attr, v);
       vector<Attribute> attr_excluded = exclude(attributes, attr);
+      Node child = build_tree(attr_excluded, exs, examples);
+      edges.push_back(make_pair(v, child));
     }
-
-    Node leaf_node(true, examples);
-    return leaf_node;
+    Node node(examples, edges, attr);
+    return node;
   }
 }
 
