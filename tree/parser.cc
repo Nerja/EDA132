@@ -49,7 +49,7 @@ void parse_attribute(string line, vector<Attribute>& attributes) {
 	Attribute attr(name, values);
 	attributes.push_back(attr);
 
-	cout << attr;
+	//cout << attr;
 }
 
 void parse_dataitem(string line, vector<DataItem>& examples){
@@ -66,5 +66,5 @@ void parse_dataitem(string line, vector<DataItem>& examples){
 	DataItem dataitem(values);
 	examples.push_back(dataitem);
 
-	cout << dataitem;
+	//cout << dataitem;
 }

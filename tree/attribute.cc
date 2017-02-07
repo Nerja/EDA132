@@ -4,6 +4,10 @@
 
 using namespace std;
 
+Attribute::Attribute() {
+	
+}
+
 Attribute::Attribute(string n, vector<string>& v) : name(n), values(v) {
 
 }

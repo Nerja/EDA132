@@ -10,6 +10,10 @@ DataItem::DataItem(vector<string> v) : values(v) {
   positive_class = last_v.find("yes") != string::npos;
 }
 
+bool DataItem::is_positive() const {
+  return positive_class;
+}
+
 ostream& operator<<(ostream& os, const DataItem& dataitem) {
 		for(string v : dataitem.values)
 		os << v << ", ";

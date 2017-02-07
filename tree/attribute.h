@@ -6,6 +6,7 @@
 
 class Attribute {
 	public:
+		Attribute();
 		Attribute(std::string name, std::vector<std::string>& attributes);
 		friend std::ostream& operator<<(std::ostream& os, const Attribute& attr);
 	private:

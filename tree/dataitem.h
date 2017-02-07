@@ -8,6 +8,7 @@ class DataItem {
 	public:
 		DataItem(std::vector<std::string> values);
 		friend std::ostream& operator<<(std::ostream& os, const DataItem& dataitem);
+		bool is_positive() const;
 	private:
 		std::vector<std::string> values;
 		bool positive_class;
