@@ -11,6 +11,7 @@ class Attribute {
 		friend std::ostream& operator<<(std::ostream& os, const Attribute& attr);
 		std::vector<std::string> get_values();
 		int get_nbr() const;
+		std::string get_name() const;
 	private:
 		int nbr;
 		std::string name;

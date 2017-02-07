@@ -20,6 +20,10 @@ vector<string> Attribute::get_values() {
   return values;
 }
 
+string Attribute::get_name() const {
+  return name;
+}
+
 ostream& operator<<(ostream& os, const Attribute& attr) {
 	os << "@attribute " << attr.name << " {";
 	for(string v : attr.values)
