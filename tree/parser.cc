@@ -19,9 +19,9 @@ void parse(string file, vector<Attribute>& attributes, vector<DataItem>& example
 		exit(1);
 	}
 	while(getline(input, line) && line.find("@attribute") == string::npos);
-
+	int nbr = 0;
 	do {
-		parse_attribute(line, attributes);
+		parse_attribute(line, attributes, nbr);
 	} while(getline(input, line) && line.find("@attribute") != string::npos);
 	attributes.pop_back();
 
@@ -34,7 +34,7 @@ void parse(string file, vector<Attribute>& attributes, vector<DataItem>& example
 	input.close();
 }
 
-void parse_attribute(string line, vector<Attribute>& attributes) {
+void parse_attribute(string line, vector<Attribute>& attributes, int& nbr) {
 	replace(line.begin(), line.end(), '{', ' ');
 	replace(line.begin(), line.end(), '}', ' ');
 	replace(line.begin(), line.end(), ',', ' ');
@@ -47,7 +47,7 @@ void parse_attribute(string line, vector<Attribute>& attributes) {
 	while(iss >> value)
 		values.push_back(value);
 
-	Attribute attr(name, values);
+	Attribute attr(nbr++, name, values);
 	attributes.push_back(attr);
 
 	//cout << attr;

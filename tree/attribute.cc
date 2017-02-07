@@ -8,8 +8,12 @@ Attribute::Attribute() {
 
 }
 
-Attribute::Attribute(string n, vector<string>& v) : name(n), values(v) {
+Attribute::Attribute(int number, string n, vector<string>& v) : nbr(number), name(n), values(v) {
 
+}
+
+int Attribute::get_nbr() const {
+  return nbr;
 }
 
 vector<string> Attribute::get_values() {

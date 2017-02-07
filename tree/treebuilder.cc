@@ -23,7 +23,7 @@ Node build_tree(vector<Attribute>& attributes, vector<DataItem>& examples, vecto
 
     vector<pair<string, Node>> edges;
     for(string v : attr.get_values()) {
-
+      vector<DataItem> exs = get_exs(examples, attr, v);
     }
 
     Node leaf_node(true, examples);
@@ -34,7 +34,8 @@ Node build_tree(vector<Attribute>& attributes, vector<DataItem>& examples, vecto
 vector<DataItem> get_exs(vector<DataItem>& examples, Attribute& attr, string value) {
   vector<DataItem> exs;
   for(DataItem ex : examples){
-    
+      if(ex.get_value(attr.get_nbr()).compare(value) == 0) 
+        exs.push_back(ex);
   }
   return exs;
 }

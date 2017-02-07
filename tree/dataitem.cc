@@ -18,6 +18,10 @@ vector<string> DataItem::get_values() {
   return values;
 }
 
+string DataItem::get_value(int nbr) {
+  return values[nbr];
+}
+
 ostream& operator<<(ostream& os, const DataItem& dataitem) {
 		for(string v : dataitem.values)
 		os << v << ", ";

@@ -7,10 +7,12 @@
 class Attribute {
 	public:
 		Attribute();
-		Attribute(std::string name, std::vector<std::string>& attributes);
+		Attribute(int nbr, std::string name, std::vector<std::string>& attributes);
 		friend std::ostream& operator<<(std::ostream& os, const Attribute& attr);
 		std::vector<std::string> get_values();
+		int get_nbr() const;
 	private:
+		int nbr;
 		std::string name;
 		std::vector<std::string> values;
 };
