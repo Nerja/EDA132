@@ -21,40 +21,23 @@ Node::Node(bool l, vector<DataItem>& ex) : examples(ex), leaf(l) {
 
 }
 
-void Node::print_tree() const {
-  print_tree("");
-}
-
-void Node::print_tree(string ind) const {
+void Node::print_tree(string ind, ostream& os) const {
   if(leaf) {
     if(positive)
-      cout << ": Yes" << endl;
+      os << ": Yes" << endl;
     else
-      cout << ": No" << endl;
+      os << ": No" << endl;
   } else {
     for(pair<string, Node> e : edges) {
-      cout << ind << attr.get_name() + " = " + e.first;
+      os << ind << attr.get_name() + " = " + e.first;
       if(!e.second.leaf)
-          cout << endl;
-      e.second.print_tree(ind + "\t");
+          os << endl;
+      e.second.print_tree(ind + "\t", os);
     }
   }
 }
 
 ostream& operator<<(ostream& os, const Node& node) {
-  if(node.leaf) {
-    if(node.positive)
-      os << ": Yes" << endl;
-    else
-      os << ": No" << endl;
-  } else {
-    for(pair<string, Node> e : node.edges) {
-      os << node.attr.get_name() + " = " + e.first;
-      if(!e.second.leaf)
-        os << endl << "\t" << e.second;
-      else
-        os << e.second;
-    }
-  }
+  node.print_tree("", os);
 	return os;
 }

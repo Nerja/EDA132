@@ -16,7 +16,7 @@ int main() {
 
 	parse(filename, attributes, examples);
 	Node n = build_tree(attributes, examples);
-	n.print_tree();
+	cout << n;
 
 
 }

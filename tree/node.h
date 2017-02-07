@@ -12,7 +12,6 @@ class Node {
 public:
   Node(std::vector<DataItem>& ex, std::vector<std::pair<std::string, Node>> edges, Attribute& attr);
   Node(bool leaf, std::vector<DataItem>& examples);
-  void print_tree() const;
   friend std::ostream& operator<<(std::ostream& os, const Node& node);
 private:
   std::vector<DataItem> examples;
@@ -20,7 +19,7 @@ private:
   bool leaf;
   bool positive;
   Attribute attr;
-  void print_tree(std::string ind) const;
+  void print_tree(std::string ind, std::ostream& os) const;
 };
 
 #endif
