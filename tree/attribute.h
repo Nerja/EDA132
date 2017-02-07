@@ -9,6 +9,7 @@ class Attribute {
 		Attribute();
 		Attribute(std::string name, std::vector<std::string>& attributes);
 		friend std::ostream& operator<<(std::ostream& os, const Attribute& attr);
+		std::vector<std::string> get_values();
 	private:
 		std::string name;
 		std::vector<std::string> values;

@@ -14,6 +14,10 @@ bool DataItem::is_positive() const {
   return positive_class;
 }
 
+vector<string> DataItem::get_values() {
+  return values;
+}
+
 ostream& operator<<(ostream& os, const DataItem& dataitem) {
 		for(string v : dataitem.values)
 		os << v << ", ";

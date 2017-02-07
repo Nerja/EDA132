@@ -23,6 +23,7 @@ void parse(string file, vector<Attribute>& attributes, vector<DataItem>& example
 	do {
 		parse_attribute(line, attributes);
 	} while(getline(input, line) && line.find("@attribute") != string::npos);
+	attributes.pop_back();
 
 	while(getline(input, line) && line.find("@data") == string::npos);
 

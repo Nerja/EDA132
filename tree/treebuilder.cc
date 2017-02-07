@@ -3,6 +3,7 @@
 #include <vector>
 #include "treebuilder.h"
 #include "node.h"
+#include <string>
 
 using namespace std;
 
@@ -20,11 +21,22 @@ Node build_tree(vector<Attribute>& attributes, vector<DataItem>& examples, vecto
   } else {
     Attribute attr = importance(attributes, examples);
 
-    
+    vector<pair<string, Node>> edges;
+    for(string v : attr.get_values()) {
+
+    }
 
     Node leaf_node(true, examples);
     return leaf_node;
   }
+}
+
+vector<DataItem> get_exs(vector<DataItem>& examples, Attribute& attr, string value) {
+  vector<DataItem> exs;
+  for(DataItem ex : examples){
+    
+  }
+  return exs;
 }
 
 Attribute importance(std::vector<Attribute>& attributes, std::vector<DataItem>& examples) {
