@@ -21,6 +21,10 @@ Node::Node(bool l, vector<DataItem>& ex) : examples(ex), leaf(l) {
 
 }
 
+void Node::prune() {
+  
+}
+
 void Node::print_tree(string ind, ostream& os) const {
   if(leaf) {
     if(positive)

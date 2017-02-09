@@ -4,6 +4,7 @@
 #include "treebuilder.h"
 #include "node.h"
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -50,8 +51,59 @@ vector<DataItem> get_exs(vector<DataItem>& examples, Attribute& attr, string val
   return exs;
 }
 
-Attribute importance(std::vector<Attribute>& attributes, std::vector<DataItem>& examples) {
-  return attributes[0];
+Attribute importance(vector<Attribute>& attributes, vector<DataItem>& examples) {
+  //cout << "*******************************" << endl;
+  Attribute best_attr = attributes[0];
+  double best_value = compute_gain(best_attr, examples);
+  //cout << best_attr.get_name() << " has gain " << to_string(best_value) << endl;
+  for(decltype(attributes.size()) i = 1; i != attributes.size(); ++i) {
+    double attr_value = compute_gain(attributes[i], examples);
+    //cout << attributes[i].get_name() << " has gain " << to_string(attr_value) << endl;
+    if(attr_value > best_value) {
+      best_attr = attributes[i];
+      best_value = attr_value;
+    }
+  }
+  return best_attr;
+}
+
+double compute_gain(Attribute& attr, vector<DataItem>& examples) {
+  //if(attr.get_name().compare("Patrons") == 0)
+  //  cout << "Gain Patrons: "<< to_string(entropy(examples)) << endl;
+  return entropy(examples) - remainder(attr, examples);
+}
+
+int count_positive(std::vector<DataItem>& examples) {
+  int count = 0;
+  for(DataItem di : examples)
+    if(di.is_positive())
+      count++;
+  return count;
+}
+
+double log2_fix(double x) {
+  if(x == 0)
+    return 0;
+  return log2(x);
+}
+
+double entropy(vector<DataItem>& examples) {
+  double p = count_positive(examples);
+  double q = p/examples.size();
+  return - (q*log2_fix(q) + (1-q)*log2_fix(1-q));
+}
+
+double remainder(Attribute& attr, vector<DataItem>& examples) {
+  double rem = 0;
+  for(string value : attr.get_values()) {
+    vector<DataItem> exs = get_exs(examples, attr, value);
+    if(exs.size() == 0)
+      continue;
+    double pk = count_positive(exs);
+    double nk = exs.size() - pk;
+    rem += ((pk+nk)/examples.size()) * entropy(exs);
+  }
+  return rem;
 }
 
 bool same_classifier(std::vector<DataItem>& examples) {

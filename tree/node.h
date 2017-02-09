@@ -13,6 +13,7 @@ public:
   Node(std::vector<DataItem>& ex, std::vector<std::pair<std::string, Node>> edges, Attribute& attr);
   Node(bool leaf, std::vector<DataItem>& examples);
   friend std::ostream& operator<<(std::ostream& os, const Node& node);
+  void prune();
 private:
   std::vector<DataItem> examples;
   std::vector<std::pair<std::string, Node>> edges;
