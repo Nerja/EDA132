@@ -21,6 +21,7 @@ private:
   bool positive;
   Attribute attr;
   void print_tree(std::string ind, std::ostream& os) const;
+  double compute_threshold(double right_part) const;
 };
 
 #endif

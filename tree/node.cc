@@ -1,6 +1,7 @@
 #include "node.h"
 #include "dataitem.h"
 #include "attribute.h"
+#include "prob.hpp"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -23,6 +24,12 @@ Node::Node(bool l, vector<DataItem>& ex) : examples(ex), leaf(l) {
 
 void Node::prune() {
   
+}
+
+double Node::compute_threshold(double right_part) const {
+  double left_part = 1 - right_part;
+  double deg_free = examples.size() - 1;
+  return chi_square_cdf_inv(left_part, deg_free);
 }
 
 void Node::print_tree(string ind, ostream& os) const {

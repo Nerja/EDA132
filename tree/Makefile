@@ -22,7 +22,10 @@ PROGS = treealg
 all: $(PROGS)
 
 # Targets rely on implicit rules for compiling and linking
-treealg: treealg.o parser.o dataitem.o attribute.o node.o treebuilder.o
+treealg: treealg.o parser.o dataitem.o attribute.o node.o treebuilder.o prob.o
+
+# Lulz
+prob.o: CXXFLAGS += -w
 
 # Phony targets
 .PHONY: all clean
