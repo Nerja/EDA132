@@ -15,6 +15,6 @@ std::vector<Attribute> exclude(std::vector<Attribute> attributes, Attribute excl
 double compute_gain(Attribute& attr, std::vector<DataItem>& examples);
 double entropy(std::vector<DataItem>& examples);
 double remainder(Attribute& attr, std::vector<DataItem>& examples);
-int count_positive(std::vector<DataItem>& examples);
+auto count_positive(std::vector<DataItem>& examples) -> decltype(examples.size());
 double log2_fix(double x);
 #endif

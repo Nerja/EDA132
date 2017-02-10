@@ -13,9 +13,8 @@ public:
   Node(std::vector<DataItem>& ex, std::vector<std::pair<std::string, Node>> edges, Attribute& attr);
   Node(bool leaf, std::vector<DataItem>& examples);
   friend std::ostream& operator<<(std::ostream& os, const Node& node);
-  void prune();
+  void prune(double threshold);
   std::vector<DataItem> get_examples();
-  bool only_children() const;
 private:
   std::vector<DataItem> examples;
   std::vector<std::pair<std::string, Node>> edges;
@@ -25,6 +24,7 @@ private:
   void print_tree(std::string ind, std::ostream& os) const;
   double compute_threshold(double right_part) const;
   double compute_delta();
+  bool only_leaf_children() const;
 };
 
 #endif
