@@ -107,7 +107,6 @@ public class HMMLocalizer implements EstimatorInterface {
 		return new int[] { trueState.getRow(), trueState.getCol() };
 	}
 
-	// http://stackoverflow.com/questions/9330394/how-to-pick-an-item-by-its-probability
 	public int[] getCurrentReading() {
 		return lastSensorReading == null ? null
 				: new int[] { lastSensorReading.getRow(), lastSensorReading.getCol() };

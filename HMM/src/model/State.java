@@ -20,8 +20,7 @@ public class State {
 	 * @return unique nbr enumerating this state
 	 */
 	public int getStateNbr() {
-		int beforeOnRow = (col > 0 ? (col * 4) : 0);
-		return row * cols * 4 + beforeOnRow + heading;
+		return row * cols * 4 + col * 4 + heading;
 	}
 	
 	/**
@@ -126,9 +125,8 @@ public class State {
 			return 0.025;
 		else if(rowdiff == 1 || coldiff == 1)
 			return 0.05;
-		else if(rowdiff == 0 || coldiff == 0)
+		else //Must be 0 ring
 			return 0.1;
-		return 0.0001;
 	}
 
 	/**
